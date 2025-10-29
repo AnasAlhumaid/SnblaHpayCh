@@ -13,6 +13,7 @@ import StripePaymentSheet
 struct WalletView: View {
     let repo: HPayRepository
     @StateObject private var vm: WalletViewModel
+    @StateObject private var vmTransaction: TransactionsViewModel
     @State private var showingAddCash = false
     @State private var showingAddCard = false
     @State private var isProcessingPayment = false
@@ -26,6 +27,7 @@ struct WalletView: View {
     init(repo: HPayRepository) {
         self.repo = repo
         _vm = StateObject(wrappedValue: WalletViewModel(repo: repo))
+        _vmTransaction = StateObject(wrappedValue: TransactionsViewModel(repo: repo))
        
     }
     
@@ -135,7 +137,10 @@ struct WalletView: View {
                 .toolbar { ToolbarItem(placement: .topBarTrailing) {
                     
                     Button {
-                        Task { await vm.load() }
+                        Task { await vm.load()
+                            await vmTransaction.load()
+                            
+                        }
                     } label: {
                         Image(systemName: "arrow.trianglehead.counterclockwise")
                             .foregroundStyle(Color("deepBrown"))

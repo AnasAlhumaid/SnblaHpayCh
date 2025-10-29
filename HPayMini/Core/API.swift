@@ -76,7 +76,7 @@ final class MockHPayAPI: HPayRepository {
         
         func getTransactions() async throws -> [Transactions] {
             try await Task.sleep(for: latency)
-            try maybeFail()
+           
             return txs.sorted { $0.createdAt > $1.createdAt }
         }
         
