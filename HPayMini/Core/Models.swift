@@ -29,6 +29,8 @@ struct Transactions: Identifiable, Codable {
     let amount: Decimal
     let createdAt: Date
     let status: TransactionStatus
+    let name: String
+    let image :String
 }
 
 

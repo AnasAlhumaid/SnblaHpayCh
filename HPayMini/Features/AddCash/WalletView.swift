@@ -115,7 +115,7 @@ struct WalletView: View {
                                 
                             }
                             
-                            RecentTransactionsSnippet(repo: repo)
+                            RecentTransactionsSnippet( vm: vmTransaction)
                             Spacer(minLength: 0) // lets the card stretch
                         }
                         .padding()
@@ -137,8 +137,11 @@ struct WalletView: View {
                 .toolbar { ToolbarItem(placement: .topBarTrailing) {
                     
                     Button {
-                        Task { await vm.load()
+                        Task {
+                            await vm.load()
                             await vmTransaction.load()
+
+                           
                             
                         }
                     } label: {
@@ -194,7 +197,7 @@ struct WalletView: View {
                 
             }
         }
-        
+    
         .environment(\.layoutDirection, .rightToLeft)
         
         
@@ -223,13 +226,10 @@ struct WalletView: View {
 
 
 struct RecentTransactionsSnippet: View {
-    let repo: HPayRepository
-    @StateObject private var vm: TransactionsViewModel
+ 
+    @ObservedObject var vm: TransactionsViewModel
     
-    init(repo: HPayRepository) {
-        self.repo = repo
-        _vm = StateObject(wrappedValue: TransactionsViewModel(repo: repo))
-    }
+  
     
     
     var body: some View {
@@ -241,18 +241,30 @@ struct RecentTransactionsSnippet: View {
                 Text("Couldn’t load.")
             } else {
                 ForEach(vm.txs.prefix(3)) { tx in
+                    let signColor: Color = tx.type == .payment ? .red : .green
                     HStack {
                         HStack{
-                            Image( "banda")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 30, height: 30)
-                                .padding(10)
-                                .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 1.5).fill(Color("deepBrown").opacity(0.1)))
+                            if tx.image == "banda" {
+                                Image( tx.image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 30, height: 30)
+                                    .padding(10)
+                                    .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 1.5).fill(Color("deepBrown").opacity(0.1)))
+                            }else{
+                                Image( systemName: tx.image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 30, height: 30)
+                                    .padding(10)
+                                    .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 1.5).fill(Color("deepBrown").opacity(0.1)))
+                            }
+                            
                             
                         }
                         VStack(alignment: .leading) {
-                            Text(tx.type == .topUp ? "Top-Up" : "Payment")
+                            Text(tx.name)
+                            
                             Text(DateFormatter.tx.string(from: tx.createdAt))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
@@ -262,7 +274,6 @@ struct RecentTransactionsSnippet: View {
                         
                         
                         Spacer()
-                        let signColor: Color = (tx.amount as NSDecimalNumber).doubleValue < 0 ? .red : .green
                         RiyalAmountView(amount: tx.amount, color: signColor)
                     }
                     Divider()
@@ -271,6 +282,7 @@ struct RecentTransactionsSnippet: View {
         }
         
         .task { await vm.load() }
+        
     }
 }
 

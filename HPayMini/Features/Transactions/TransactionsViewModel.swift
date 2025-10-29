@@ -20,11 +20,18 @@ final class TransactionsViewModel: ObservableObject {
     
     
     func load() async {
-        isLoading = true; defer { isLoading = false }
-        do { txs = try await repo.getTransactions()
-        }
-        catch {
-            errors = error.localizedDescription
-        }
+        
+      
+            isLoading = true; defer { isLoading = false }
+            do {
+                
+                    txs = try await repo.getTransactions()
+                
+            }
+            catch {
+                errors = error.localizedDescription
+            }
+        
+        
     }
 }

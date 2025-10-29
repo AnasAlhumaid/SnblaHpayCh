@@ -16,6 +16,7 @@ struct HPayRootView: View {
         TabView {
             WalletView(repo: container.repo)
                 .tabItem { Label("HPay", systemImage: "creditcard") }
+           
         
         }
     }
