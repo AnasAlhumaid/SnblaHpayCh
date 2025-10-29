@@ -50,5 +50,5 @@ Expand UI animations and error visuals
 
 https://github.com/user-attachments/assets/f8610277-5986-42b1-9920-656052e71f05
 
-<img width="500" height="600" alt="Simulator Screenshot - iPhone 16 Pro Max - 2025-10-29 at 10 58 29" src="https://github.com/user-attachments/assets/d7ac53da-1ded-46b0-982f-db5a4bc1b12e" />
-<img width="500" height="600" alt="Simulator Screenshot - iPhone 16 Pro Max - 2025-10-29 at 10 58 14" src="https://github.com/user-attachments/assets/90d884ac-6856-4c8d-8756-ae9554423f86" />
+<img width="250" height="600" alt="Simulator Screenshot - iPhone 16 Pro Max - 2025-10-29 at 10 58 29" src="https://github.com/user-attachments/assets/d7ac53da-1ded-46b0-982f-db5a4bc1b12e" />
+<img width="250" height="600" alt="Simulator Screenshot - iPhone 16 Pro Max - 2025-10-29 at 10 58 14" src="https://github.com/user-attachments/assets/90d884ac-6856-4c8d-8756-ae9554423f86" />
