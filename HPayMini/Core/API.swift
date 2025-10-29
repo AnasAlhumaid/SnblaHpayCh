@@ -17,14 +17,14 @@ final class MockHPayAPI: HPayRepository {
         private let latency: Duration
         private let errorRate: Double
     var userId: Int
-        private var wallet = Wallet(balance: 104.90)
+        private var wallet = Wallet(balance: 4.90)
         private var cards: [Card] = [
             Card(id: UUID(), brand: "Visa", last4: "4242", expMonth: 12, expYear: 2027),
             Card(id: UUID(), brand: "Mastercard", last4: "4444", expMonth: 5, expYear: 2026)
         ]
         private var txs: [Transactions] = [
             Transactions(id: UUID(), type: .topUp, amount: 4.90, createdAt: Date().addingTimeInterval(-3600*6), status: .succeeded, name: "بندة", image: "banda"),
-            Transactions(id: UUID(), type: .payment, amount: 100.00, createdAt: Date().addingTimeInterval(-3600*24), status: .succeeded, name: "بندة", image: "banda")
+            Transactions(id: UUID(), type: .payment, amount: -100.00, createdAt: Date().addingTimeInterval(-3600*24), status: .succeeded, name: "بندة", image: "banda")
         ]
         init(userId: Int = 1,latency: Duration = .milliseconds(600), errorRate: Double = 0.1) {
             self.latency = latency
