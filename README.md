@@ -33,8 +33,12 @@ By default, the app runs using the in-memory mock repositories for quick debuggi
 
 To enable Stripe Test Mode with the live backend on Render, simply follow the inline comments on 
 
+HpayMiniApp.swift
 WalletView.swift
 AddCashView.swift
+
+* I add Error that maybeFail for semolate Api requists to see how its handle
+* I add latency to match Api requists  
 
 # Limitations:
 
