@@ -26,7 +26,7 @@ final class HPayRepositoryCla: HPayRepository {
     
     let baseURL = URL(string: "https://hpaymini-stripe-backend-1.onrender.com")!
     let userId: Int = 1
-    
+    @Published var errorMessage: String?
     
     func getWallet() async throws -> Wallet {
         let url = baseURL.appendingPathComponent("wallet")

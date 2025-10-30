@@ -20,7 +20,8 @@ final class WalletViewModel: ObservableObject {
     
     
     func load() async {
-        isLoading = true; defer { isLoading = false }
+        isLoading = true
+        defer { isLoading = false }
         do { wallet = try await repo.getWallet() } catch { self.error = error.localizedDescription }
     }
 }

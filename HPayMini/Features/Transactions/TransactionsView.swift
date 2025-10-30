@@ -8,51 +8,61 @@
 import SwiftUI
 
 
-struct TransactionsView: View {
-    let repo: HPayRepository
-    @StateObject private var vm: TransactionsViewModel
-    
-    
-    init(repo: HPayRepository) {
-        self.repo = repo
-        _vm = StateObject(wrappedValue: TransactionsViewModel(repo: repo))
-    }
-    
-    
+
+struct RecentTransactionsSnippet: View {
+ 
+    @ObservedObject var vm: TransactionsViewModel
+
     var body: some View {
-        NavigationStack {
-            VStack {
-                if vm.isLoading {
-                    ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if let error = vm.errors {
-                    Text(error).foregroundStyle(.red)
-                } else {
-                    List(vm.txs) { tx in
-                        HStack {
-                            Image(systemName: icon(for: tx))
-                            VStack(alignment: .leading) {
-                                Text(title(for: tx))
-                                Text(DateFormatter.tx.string(from: tx.createdAt))
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+        
+        VStack {
+            if vm.isLoading {
+                ProgressView()
+            } else if vm.errors != nil {
+                Text("Couldn’t load.")
+            } else {
+                ForEach(vm.txs.prefix(3)) { tx in
+                    let signColor: Color = tx.type == .payment ? .red : .green
+                    HStack {
+                        HStack{
+                            if tx.image == "banda" {
+                                Image( tx.image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 30, height: 30)
+                                    .padding(10)
+                                    .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 1.5).fill(Color("deepBrown").opacity(0.1)))
+                            }else{
+                                Image( systemName: tx.image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 30, height: 30)
+                                    .padding(10)
+                                    .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 1.5).fill(Color("deepBrown").opacity(0.1)))
                             }
-                            Spacer()
-                            Text(Money.format(tx.amount))
-                                .fontWeight(.semibold)
+                            
+                            
                         }
+                        VStack(alignment: .leading) {
+                            Text(tx.name)
+                            
+                            Text(DateFormatter.tx.string(from: tx.createdAt))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        
+                        
+                        
+                        
+                        Spacer()
+                        RiyalAmountView(amount: tx.amount, color: signColor)
                     }
+                    Divider()
                 }
             }
-            .navigationTitle("Activity")
-            .task { await vm.load() }
         }
-    }
-    
-    
-    private func icon(for tx: Transactions) -> String {
-        switch tx.type { case .topUp: return "arrow.down.circle"; case .payment: return "arrow.up.circle"; case .refund: return "arrow.uturn.backward.circle" }
-    }
-    private func title(for tx: Transactions) -> String {
-        switch tx.type { case .topUp: return "Top‑Up"; case .payment: return "Payment"; case .refund: return "Refund" }
+        
+        .task { await vm.load() }
+        
     }
 }

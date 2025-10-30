@@ -25,14 +25,16 @@ final class CardsViewModel: ObservableObject {
     
     
     func load() async {
-        isLoading = true; defer { isLoading = false }
+        isLoading = true
+        defer { isLoading = false }
         do { cards = try await repo.getCards() } catch { errorHandler(error) }
     }
     
     
     func addCard() async {
         guard let month = Int(expMonth), let year = Int(expYear), last4.count == 4 else { return }
-        isLoading = true; defer { isLoading = false }
+        isLoading = true
+        defer { isLoading = false }
         do {
             _ = try await repo.createCard(brand: brand, last4: last4, expMonth: month, expYear: year)
             await load()
@@ -44,7 +46,8 @@ final class CardsViewModel: ObservableObject {
     func delete(at offsets: IndexSet) async {
         guard let index = offsets.first else { return }
         let id = cards[index].id
-        isLoading = true; defer { isLoading = false }
+        isLoading = true
+        defer { isLoading = false }
         do { try await repo.removeCard(id: id); await load() } catch { errorHandler(error) }
     }
     
