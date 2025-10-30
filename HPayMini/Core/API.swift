@@ -84,8 +84,6 @@ final class MockHPayAPI: HPayRepository {
     }
 
     func topUp(amount: Decimal) async throws -> Wallet {
-        try await simulateLatency()
-        try maybeFail()
 
         guard amount > 0 else {
             throw APIError(message: "Amount must be greater than zero.", code: 400)
@@ -108,7 +106,6 @@ final class MockHPayAPI: HPayRepository {
     }
 
     func credit(amountSar: Decimal) async throws -> Wallet {
-        try await simulateLatency()
 
         guard amountSar > 0 else {
             throw APIError(message: "Amount must be greater than zero.", code: 400)
