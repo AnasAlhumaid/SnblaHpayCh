@@ -23,11 +23,18 @@ https://hpaymini-stripe-backend-1.onrender.com
 
 Uses STRIPE_SECRET_KEY (Test Mode) on Render inside App
 
-# Assumptions:
+# Assumptions
 
 Wallet balance is user-specific (mocked userId = 1)
 
-Stripe operates in Test Mode; no real payments
+Stripe operates in Test Mode (Sandbox) — no real payments are processed
+
+By default, the app runs using the in-memory mock repositories for quick debugging and offline use
+
+To enable Stripe Test Mode with the live backend on Render, simply follow the inline comments on 
+
+WalletView.swift
+AddCashView.swift
 
 # Limitations:
 
